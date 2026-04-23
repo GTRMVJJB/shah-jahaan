@@ -1,0 +1,1021 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 #!/bin/bash\
+\
+# Create project structure\
+mkdir -p shah-jahan-2.0/app\
+mkdir -p shah-jahan-2.0/components\
+mkdir -p shah-jahan-2.0/public\
+\
+cd shah-jahan-2.0\
+\
+# Create package.json\
+cat > package.json << 'ENDFILE'\
+\{\
+  "name": "shah-jahan-2.0",\
+  "version": "1.0.0",\
+  "description": "Shah Jahan 2.0 - Premium Indian Restaurant Website",\
+  "scripts": \{\
+    "dev": "next dev",\
+    "build": "next build",\
+    "start": "next start",\
+    "lint": "next lint"\
+  \},\
+  "dependencies": \{\
+    "next": "^15.0.0",\
+    "react": "^19.0.0",\
+    "react-dom": "^19.0.0",\
+    "framer-motion": "^11.0.0",\
+    "lucide-react": "^0.344.0"\
+  \},\
+  "devDependencies": \{\
+    "typescript": "^5.3.0",\
+    "@types/node": "^20.0.0",\
+    "@types/react": "^19.0.0",\
+    "@types/react-dom": "^19.0.0",\
+    "tailwindcss": "^3.4.0",\
+    "postcss": "^8.4.0",\
+    "autoprefixer": "^10.4.0"\
+  \}\
+\}\
+ENDFILE\
+\
+# Create app/layout.tsx\
+cat > app/layout.tsx << 'ENDFILE'\
+import type \{ Metadata \} from 'next';\
+import \{ Baskerville, Montserrat \} from 'next/font/google';\
+import './globals.css';\
+\
+const baskerville = Baskerville(\{\
+  subsets: ['latin'],\
+  weight: ['400', '700'],\
+  variable: '--font-baskerville',\
+  display: 'swap',\
+\});\
+\
+const montserrat = Montserrat(\{\
+  subsets: ['latin'],\
+  weight: ['400', '500', '600', '700'],\
+  variable: '--font-montserrat',\
+  display: 'swap',\
+\});\
+\
+export const metadata: Metadata = \{\
+  title: 'Shah Jahan | Premium Indian Restaurant in Amsterdam',\
+  description: 'Experience authentic Indian cuisine in the heart of Amsterdam Jordaan.',\
+\};\
+\
+export default function RootLayout(\{\
+  children,\
+\}: \{\
+  children: React.ReactNode;\
+\}) \{\
+  return (\
+    <html lang="en" className=\{`$\{baskerville.variable\} $\{montserrat.variable\} scroll-smooth`\}>\
+      <body className="bg-[#1a1a1a] text-[#f2f2f2] overflow-x-hidden">\
+        \{children\}\
+      </body>\
+    </html>\
+  );\
+\}\
+ENDFILE\
+\
+# Create app/globals.css\
+cat > app/globals.css << 'ENDFILE'\
+@tailwind base;\
+@tailwind components;\
+@tailwind utilities;\
+\
+* \{\
+  margin: 0;\
+  padding: 0;\
+  box-sizing: border-box;\
+\}\
+\
+html \{\
+  scroll-behavior: smooth;\
+\}\
+\
+body \{\
+  font-family: 'Montserrat', sans-serif;\
+  background-color: #1a1a1a;\
+  color: #f2f2f2;\
+  line-height: 1.6;\
+\}\
+\
+h1, h2, h3, h4, h5, h6 \{\
+  font-family: 'Baskerville', serif;\
+\}\
+\
+::-webkit-scrollbar \{\
+  width: 12px;\
+\}\
+\
+::-webkit-scrollbar-track \{\
+  background: #1a1a1a;\
+\}\
+\
+::-webkit-scrollbar-thumb \{\
+  background: #cc5500;\
+  border-radius: 6px;\
+\}\
+\
+::-webkit-scrollbar-thumb:hover \{\
+  background: #ff8c42;\
+\}\
+\
+button, a \{\
+  transition: all 0.3s ease;\
+\}\
+\
+img \{\
+  max-width: 100%;\
+  height: auto;\
+  display: block;\
+  object-fit: cover;\
+\}\
+\
+input, textarea, select \{\
+  font-family: 'Montserrat', sans-serif;\
+  font-size: 16px;\
+\}\
+ENDFILE\
+\
+# Create app/page.tsx\
+cat > app/page.tsx << 'ENDFILE'\
+'use client';\
+\
+import Header from '@/components/Header';\
+import Hero from '@/components/Hero';\
+import IntegratedMenu from '@/components/IntegratedMenu';\
+import \{ motion \} from 'framer-motion';\
+\
+export default function Home() \{\
+  return (\
+    <main className="w-full">\
+      <Header />\
+      <Hero />\
+      <IntegratedMenu />\
+      <ReservationSection />\
+      <HistorySection />\
+      <ContactSection />\
+      <FooterSection />\
+    </main>\
+  );\
+\}\
+\
+function ReservationSection() \{\
+  return (\
+    <section id="reserve" className="relative w-full py-20 bg-gradient-to-b from-[#1a1a1a] to-[#2d1a0a]">\
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">\
+        <div className="text-center mb-12">\
+          <h2 className="text-5xl md:text-6xl font-bold font-serif text-[#f2f2f2] mb-4">\
+            Reserve Your Table\
+          </h2>\
+          <p className="text-[#f2f2f2]/70 text-lg max-w-2xl mx-auto">\
+            Book your experience at Shah Jahan and enjoy authentic Indian cuisine\
+          </p>\
+        </div>\
+\
+        <div className="max-w-2xl mx-auto bg-[#2d2d2d] rounded-xl p-8 border border-[#cc5500]/20">\
+          <form className="space-y-6">\
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">\
+              <div>\
+                <label className="block text-[#f2f2f2] font-semibold mb-2">Your Name</label>\
+                <input\
+                  type="text"\
+                  placeholder="Enter your name"\
+                  className="w-full px-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#cc5500]/20 text-[#f2f2f2] placeholder-[#f2f2f2]/50 focus:border-[#cc5500]/50 focus:outline-none"\
+                />\
+              </div>\
+              <div>\
+                <label className="block text-[#f2f2f2] font-semibold mb-2">Email</label>\
+                <input\
+                  type="email"\
+                  placeholder="your.email@example.com"\
+                  className="w-full px-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#cc5500]/20 text-[#f2f2f2] placeholder-[#f2f2f2]/50 focus:border-[#cc5500]/50 focus:outline-none"\
+                />\
+              </div>\
+            </div>\
+\
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">\
+              <div>\
+                <label className="block text-[#f2f2f2] font-semibold mb-2">Date</label>\
+                <input\
+                  type="date"\
+                  className="w-full px-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#cc5500]/20 text-[#f2f2f2] focus:border-[#cc5500]/50 focus:outline-none"\
+                />\
+              </div>\
+              <div>\
+                <label className="block text-[#f2f2f2] font-semibold mb-2">Time</label>\
+                <input\
+                  type="time"\
+                  className="w-full px-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#cc5500]/20 text-[#f2f2f2] focus:border-[#cc5500]/50 focus:outline-none"\
+                />\
+              </div>\
+            </div>\
+\
+            <div>\
+              <label className="block text-[#f2f2f2] font-semibold mb-2">Number of Guests</label>\
+              <select className="w-full px-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#cc5500]/20 text-[#f2f2f2] focus:border-[#cc5500]/50 focus:outline-none">\
+                <option>1 Guest</option>\
+                <option>2 Guests</option>\
+                <option>3 Guests</option>\
+                <option>4 Guests</option>\
+                <option>5 Guests</option>\
+                <option>6+ Guests</option>\
+              </select>\
+            </div>\
+\
+            <div>\
+              <label className="block text-[#f2f2f2] font-semibold mb-2">Special Requests</label>\
+              <textarea\
+                placeholder="Any dietary requirements or special occasions?"\
+                rows=\{4\}\
+                className="w-full px-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#cc5500]/20 text-[#f2f2f2] placeholder-[#f2f2f2]/50 focus:border-[#cc5500]/50 focus:outline-none resize-none"\
+              />\
+            </div>\
+\
+            <button\
+              type="submit"\
+              className="w-full py-3 rounded-lg bg-gradient-to-r from-[#cc5500] to-[#ff8c42] text-white font-bold hover:shadow-lg transition-shadow"\
+            >\
+              Reserve Now\
+            </button>\
+          </form>\
+        </div>\
+      </div>\
+    </section>\
+  );\
+\}\
+\
+function HistorySection() \{\
+  return (\
+    <section id="history" className="relative w-full py-20 bg-[#1a1a1a]">\
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">\
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">\
+          <div>\
+            <h2 className="text-5xl md:text-6xl font-bold font-serif text-[#f2f2f2] mb-6">\
+              The History of Shah Jahan\
+            </h2>\
+            <p className="text-[#f2f2f2]/70 text-lg mb-4 leading-relaxed">\
+              Named after the legendary Mughal emperor who built the Taj Mahal, Shah Jahan has been serving authentic Indian cuisine in Amsterdam's Jordaan since 1995.\
+            </p>\
+            <p className="text-[#f2f2f2]/70 text-lg mb-4 leading-relaxed">\
+              Our restaurant captures the grandeur, warmth, and hospitality of India's golden era, serving dishes that honor traditional recipes passed down through generations.\
+            </p>\
+            <p className="text-[#f2f2f2]/70 text-lg leading-relaxed">\
+              Every dish is crafted with premium spices imported directly from India, ensuring an authentic taste that transports you to the heart of Indian cuisine.\
+            </p>\
+          </div>\
+          <div className="rounded-xl overflow-hidden border-4 border-[#cc5500]">\
+            <img\
+              src="https://images.unsplash.com/photo-1585521537906-6b8a66a51c1b?w=600&h=400&fit=crop"\
+              alt="Shah Jahan Restaurant"\
+              className="w-full h-96 object-cover"\
+            />\
+          </div>\
+        </div>\
+      </div>\
+    </section>\
+  );\
+\}\
+\
+function ContactSection() \{\
+  return (\
+    <section id="contact" className="relative w-full py-20 bg-gradient-to-b from-[#1a1a1a] to-[#2d1a0a]">\
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">\
+        <h2 className="text-5xl md:text-6xl font-bold font-serif text-[#f2f2f2] mb-12">\
+          Get in Touch\
+        </h2>\
+\
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">\
+          <div className="bg-[#2d2d2d] rounded-xl p-8 border border-[#cc5500]/20">\
+            <h3 className="text-2xl font-bold text-[#cc5500] mb-4">\uc0\u55357 \u56525  Address</h3>\
+            <p className="text-[#f2f2f2]/70 text-lg">\
+              1e Anjeliersdwarsstraat 18<br />\
+              1015 NR Amsterdam<br />\
+              Netherlands\
+            </p>\
+          </div>\
+\
+          <div className="bg-[#2d2d2d] rounded-xl p-8 border border-[#cc5500]/20">\
+            <h3 className="text-2xl font-bold text-[#cc5500] mb-4">\uc0\u55357 \u56542  Contact</h3>\
+            <p className="text-[#f2f2f2]/70 text-lg mb-2">\
+              <a href="tel:+31201234567" className="hover:text-[#cc5500] transition-colors">\
+                +31 (0)20 123 4567\
+              </a>\
+            </p>\
+            <p className="text-[#f2f2f2]/70 text-lg">\
+              <a href="mailto:hello@shah-jahan.nl" className="hover:text-[#cc5500] transition-colors">\
+                hello@shah-jahan.nl\
+              </a>\
+            </p>\
+          </div>\
+\
+          <div className="bg-[#2d2d2d] rounded-xl p-8 border border-[#cc5500]/20">\
+            <h3 className="text-2xl font-bold text-[#cc5500] mb-4">\uc0\u9200  Hours</h3>\
+            <p className="text-[#f2f2f2]/70 text-lg">\
+              Mon-Thu: 5PM - 11PM<br />\
+              Fri-Sat: 5PM - 12AM<br />\
+              Sunday: 5PM - 11PM\
+            </p>\
+          </div>\
+        </div>\
+      </div>\
+    </section>\
+  );\
+\}\
+\
+function FooterSection() \{\
+  return (\
+    <footer className="relative w-full bg-[#0d0d0d] border-t border-[#cc5500]/20">\
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">\
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">\
+          <div>\
+            <h3 className="text-lg font-bold text-[#cc5500] mb-4">Shah Jahan</h3>\
+            <p className="text-[#f2f2f2]/60 text-sm">\
+              Premium Indian cuisine in Amsterdam's Jordaan since 1995.\
+            </p>\
+          </div>\
+          <div>\
+            <h4 className="text-[#f2f2f2] font-semibold mb-4">Menu</h4>\
+            <ul className="space-y-2 text-[#f2f2f2]/60 text-sm">\
+              <li><a href="#menu" className="hover:text-[#cc5500] transition-colors">Starters</a></li>\
+              <li><a href="#menu" className="hover:text-[#cc5500] transition-colors">Tandoori</a></li>\
+              <li><a href="#menu" className="hover:text-[#cc5500] transition-colors">Curries</a></li>\
+              <li><a href="#menu" className="hover:text-[#cc5500] transition-colors">Biryani</a></li>\
+            </ul>\
+          </div>\
+          <div>\
+            <h4 className="text-[#f2f2f2] font-semibold mb-4">Quick Links</h4>\
+            <ul className="space-y-2 text-[#f2f2f2]/60 text-sm">\
+              <li><a href="#history" className="hover:text-[#cc5500] transition-colors">History</a></li>\
+              <li><a href="#reserve" className="hover:text-[#cc5500] transition-colors">Reserve</a></li>\
+              <li><a href="#contact" className="hover:text-[#cc5500] transition-colors">Contact</a></li>\
+            </ul>\
+          </div>\
+          <div>\
+            <h4 className="text-[#f2f2f2] font-semibold mb-4">Follow Us</h4>\
+            <ul className="space-y-2 text-[#f2f2f2]/60 text-sm">\
+              <li><a href="#" className="hover:text-[#cc5500] transition-colors">Instagram</a></li>\
+              <li><a href="#" className="hover:text-[#cc5500] transition-colors">Facebook</a></li>\
+              <li><a href="#" className="hover:text-[#cc5500] transition-colors">TripAdvisor</a></li>\
+            </ul>\
+          </div>\
+        </div>\
+\
+        <div className="border-t border-[#cc5500]/20 pt-8">\
+          <p className="text-center text-[#f2f2f2]/50 text-sm">\
+            \'a9 2026 Shah Jahan. All rights reserved.\
+          </p>\
+        </div>\
+      </div>\
+    </footer>\
+  );\
+\}\
+ENDFILE\
+\
+# Create components/Header.tsx\
+cat > components/Header.tsx << 'ENDFILE'\
+'use client';\
+\
+import \{ useState \} from 'react';\
+import \{ Menu, X, Phone \} from 'lucide-react';\
+import \{ motion \} from 'framer-motion';\
+\
+export default function Header() \{\
+  const [isOpen, setIsOpen] = useState(false);\
+\
+  const navItems = [\
+    \{ label: 'Home', href: '#hero' \},\
+    \{ label: 'Menu', href: '#menu' \},\
+    \{ label: 'History', href: '#history' \},\
+    \{ label: 'Reserve', href: '#reserve' \},\
+    \{ label: 'Contact', href: '#contact' \},\
+  ];\
+\
+  return (\
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-[#1a1a1a] to-[#1a1a1a]/95 border-b border-[#cc5500]/20">\
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">\
+        <div className="flex items-center justify-between h-20">\
+          <motion.div\
+            initial=\{\{ opacity: 0, x: -20 \}\}\
+            animate=\{\{ opacity: 1, x: 0 \}\}\
+            transition=\{\{ duration: 0.5 \}\}\
+            className="flex items-center gap-3"\
+          >\
+            <div className="w-12 h-12 bg-gradient-to-br from-[#cc5500] to-[#ff8c42] rounded-lg flex items-center justify-center shadow-lg">\
+              <span className="text-white font-bold text-lg">SJ</span>\
+            </div>\
+            <div className="hidden sm:block">\
+              <h1 className="text-[#f2f2f2] font-bold text-xl font-serif">Shah Jahan</h1>\
+              <p className="text-[#cc5500] text-xs">Indian Cuisine</p>\
+            </div>\
+          </motion.div>\
+\
+          <nav className="hidden md:flex items-center gap-8">\
+            \{navItems.map((item) => (\
+              <motion.a\
+                key=\{item.href\}\
+                href=\{item.href\}\
+                whileHover=\{\{ color: '#cc5500' \}\}\
+                className="text-[#f2f2f2] hover:text-[#cc5500] transition-colors font-medium text-sm"\
+              >\
+                \{item.label\}\
+              </motion.a>\
+            ))\}\
+          </nav>\
+\
+          <div className="hidden md:flex items-center gap-4">\
+            <motion.a\
+              href="tel:+31-20-123-4567"\
+              whileHover=\{\{ scale: 1.05 \}\}\
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#cc5500]/10 border border-[#cc5500] text-[#cc5500] hover:bg-[#cc5500] hover:text-white transition-all"\
+            >\
+              <Phone size=\{18\} />\
+              <span className="hidden lg:inline">Call</span>\
+            </motion.a>\
+            <motion.button\
+              onClick=\{() => document.getElementById('reserve')?.scrollIntoView(\{ behavior: 'smooth' \})\}\
+              whileHover=\{\{ scale: 1.05 \}\}\
+              className="px-6 py-2 rounded-lg bg-gradient-to-r from-[#cc5500] to-[#ff8c42] text-white font-semibold hover:shadow-lg transition-shadow"\
+            >\
+              Reserve\
+            </motion.button>\
+          </div>\
+\
+          <motion.button\
+            onClick=\{() => setIsOpen(!isOpen)\}\
+            className="md:hidden p-2 rounded-lg hover:bg-[#cc5500]/10"\
+            whileHover=\{\{ scale: 1.1 \}\}\
+          >\
+            \{isOpen ? <X size=\{24\} color="#cc5500" /> : <Menu size=\{24\} color="#f2f2f2" />\}\
+          </motion.button>\
+        </div>\
+\
+        \{isOpen && (\
+          <motion.nav\
+            initial=\{\{ opacity: 0, y: -10 \}\}\
+            animate=\{\{ opacity: 1, y: 0 \}\}\
+            exit=\{\{ opacity: 0, y: -10 \}\}\
+            className="md:hidden pb-6 space-y-3 border-t border-[#cc5500]/20 pt-4"\
+          >\
+            \{navItems.map((item) => (\
+              <a\
+                key=\{item.href\}\
+                href=\{item.href\}\
+                onClick=\{() => setIsOpen(false)\}\
+                className="block text-[#f2f2f2] hover:text-[#cc5500] transition-colors py-2"\
+              >\
+                \{item.label\}\
+              </a>\
+            ))\}\
+          </motion.nav>\
+        )\}\
+      </div>\
+    </header>\
+  );\
+\}\
+ENDFILE\
+\
+# Create components/Hero.tsx\
+cat > components/Hero.tsx << 'ENDFILE'\
+'use client';\
+\
+import \{ motion \} from 'framer-motion';\
+import \{ ChevronDown, Flame \} from 'lucide-react';\
+\
+export default function Hero() \{\
+  const containerVariants = \{\
+    hidden: \{ opacity: 0 \},\
+    visible: \{\
+      opacity: 1,\
+      transition: \{\
+        staggerChildren: 0.2,\
+        delayChildren: 0.3,\
+      \},\
+    \},\
+  \};\
+\
+  const itemVariants = \{\
+    hidden: \{ opacity: 0, y: 20 \},\
+    visible: \{\
+      opacity: 1,\
+      y: 0,\
+      transition: \{ duration: 0.8, ease: 'easeOut' \},\
+    \},\
+  \};\
+\
+  return (\
+    <section id="hero" className="relative w-full h-screen pt-20 overflow-hidden">\
+      <div\
+        className="absolute inset-0 opacity-5"\
+        style=\{\{\
+          backgroundImage: `\
+            repeating-linear-gradient(45deg, transparent, transparent 35px, #cc5500 35px, #cc5500 70px),\
+            repeating-linear-gradient(-45deg, transparent, transparent 35px, #cc5500 35px, #cc5500 70px)\
+          `,\
+        \}\}\
+      />\
+\
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] via-[#1a1a1a]/95 to-[#2d1a0a]" />\
+\
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col items-center justify-center text-center">\
+        <motion.div\
+          variants=\{containerVariants\}\
+          initial="hidden"\
+          animate="visible"\
+          className="max-w-3xl"\
+        >\
+          <motion.div variants=\{itemVariants\} className="mb-6">\
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#cc5500]/10 border border-[#cc5500]/30">\
+              <Flame size=\{16\} className="text-[#cc5500]" />\
+              <span className="text-[#cc5500] text-sm font-medium">Regal Indian Cuisine Since 1995</span>\
+            </span>\
+          </motion.div>\
+\
+          <motion.h2\
+            variants=\{itemVariants\}\
+            className="text-5xl md:text-7xl font-bold font-serif text-[#f2f2f2] mb-6 leading-tight"\
+          >\
+            Shah Jahan\
+          </motion.h2>\
+\
+          <motion.p\
+            variants=\{itemVariants\}\
+            className="text-xl md:text-2xl text-[#f2f2f2]/80 mb-8 font-light"\
+          >\
+            Experience the Taj Mahal of Indian Cuisine in Amsterdam's Jordaan\
+          </motion.p>\
+\
+          <motion.p\
+            variants=\{itemVariants\}\
+            className="text-base md:text-lg text-[#f2f2f2]/70 mb-12 max-w-2xl mx-auto"\
+          >\
+            Authentic tandoori, biryani, and curries crafted with premium spices, served in an ambiance that captures the grandeur and warmth of India's golden era.\
+          </motion.p>\
+\
+          <motion.div\
+            variants=\{itemVariants\}\
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-12"\
+          >\
+            <motion.button\
+              onClick=\{() => document.getElementById('menu')?.scrollIntoView(\{ behavior: 'smooth' \})\}\
+              whileHover=\{\{ scale: 1.05, boxShadow: '0 20px 40px #cc5500/30' \}\}\
+              whileTap=\{\{ scale: 0.98 \}\}\
+              className="px-8 py-3 rounded-lg bg-gradient-to-r from-[#cc5500] to-[#ff8c42] text-white font-semibold shadow-lg hover:shadow-xl transition-shadow"\
+            >\
+              Explore Menu\
+            </motion.button>\
+            <motion.button\
+              onClick=\{() => document.getElementById('reserve')?.scrollIntoView(\{ behavior: 'smooth' \})\}\
+              whileHover=\{\{ scale: 1.05 \}\}\
+              className="px-8 py-3 rounded-lg border-2 border-[#cc5500] text-[#cc5500] font-semibold hover:bg-[#cc5500]/10 transition-colors"\
+            >\
+              Reserve a Table\
+            </motion.button>\
+          </motion.div>\
+\
+          <motion.div\
+            variants=\{itemVariants\}\
+            className="inline-flex gap-6 text-[#f2f2f2]/70 text-sm md:text-base"\
+          >\
+            <div className="flex items-center gap-2">\
+              <span className="text-[#cc5500]">\uc0\u9733 \u9733 \u9733 \u9733 \u9733 </span>\
+              <span>4.8 Rating</span>\
+            </div>\
+            <div>1e Anjeliersdwarsstraat 18, Amsterdam</div>\
+          </motion.div>\
+        </motion.div>\
+\
+        <motion.div\
+          animate=\{\{ y: [0, 10, 0] \}\}\
+          transition=\{\{ duration: 2, repeat: Infinity \}\}\
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"\
+        >\
+          <ChevronDown size=\{32\} className="text-[#cc5500]" />\
+        </motion.div>\
+      </div>\
+    </section>\
+  );\
+\}\
+ENDFILE\
+\
+# Create components/IntegratedMenu.tsx\
+cat > components/IntegratedMenu.tsx << 'ENDFILE'\
+'use client';\
+\
+import \{ useState, useMemo \} from 'react';\
+import \{ motion, AnimatePresence \} from 'framer-motion';\
+import \{ Search, Leaf, Flame \} from 'lucide-react';\
+import MenuItemCard from './MenuItemCard';\
+\
+interface MenuItem \{\
+  id: string;\
+  name: string;\
+  category: 'tandoori' | 'biryani' | 'curry' | 'naan' | 'starter' | 'vegetarian';\
+  price: number;\
+  description: string;\
+  isVegetarian: boolean;\
+  spiceLevel: 1 | 2 | 3 | 4 | 5;\
+  prepTime: number;\
+\}\
+\
+const MENU_DATA: MenuItem[] = [\
+  \{ id: 'starter-1', name: 'Samosa', category: 'starter', price: 4.50, description: 'Crispy pastry pockets filled with spiced potatoes and peas', isVegetarian: true, spiceLevel: 2, prepTime: 5 \},\
+  \{ id: 'starter-2', name: 'Onion Bhaji', category: 'starter', price: 5.00, description: 'Golden-fried onion fritters with aromatic spices', isVegetarian: true, spiceLevel: 2, prepTime: 5 \},\
+  \{ id: 'starter-3', name: 'Paneer Pakora', category: 'starter', price: 6.50, description: 'Homemade cottage cheese fritters, tender and delicious', isVegetarian: true, spiceLevel: 2, prepTime: 6 \},\
+  \{ id: 'starter-4', name: 'Chicken Tikka', category: 'starter', price: 7.50, description: 'Marinated chicken chunks, grilled to perfection', isVegetarian: false, spiceLevel: 3, prepTime: 8 \},\
+  \{ id: 'starter-5', name: 'Prawn Tikka', category: 'starter', price: 8.50, description: 'Succulent king prawns marinated in yogurt and spices', isVegetarian: false, spiceLevel: 3, prepTime: 8 \},\
+  \{ id: 'tandoori-1', name: 'Chicken Tikka Tandoori', category: 'tandoori', price: 14.95, description: 'Tender chicken marinated in yogurt and spices, cooked in the tandoor', isVegetarian: false, spiceLevel: 3, prepTime: 20 \},\
+  \{ id: 'tandoori-2', name: 'Lamb Tikka Tandoori', category: 'tandoori', price: 16.95, description: 'Premium lamb pieces, perfectly charred in the tandoor', isVegetarian: false, spiceLevel: 3, prepTime: 22 \},\
+  \{ id: 'tandoori-3', name: 'Fish Tikka Tandoori', category: 'tandoori', price: 15.95, description: 'Fresh fish fillet, delicately spiced and tandoor-cooked', isVegetarian: false, spiceLevel: 2, prepTime: 18 \},\
+  \{ id: 'tandoori-4', name: 'Tandoori Paneer Tikka', category: 'tandoori', price: 12.95, description: 'Cottage cheese cubes with peppers, cooked in the tandoor', isVegetarian: true, spiceLevel: 2, prepTime: 18 \},\
+  \{ id: 'tandoori-5', name: 'Mixed Grill', category: 'tandoori', price: 18.95, description: 'Assorted tandoori chicken, lamb, and paneer tikka', isVegetarian: false, spiceLevel: 3, prepTime: 25 \},\
+  \{ id: 'biryani-1', name: 'Chicken Biryani', category: 'biryani', price: 13.95, description: 'Fragrant basmati rice layered with tender chicken and aromatic spices', isVegetarian: false, spiceLevel: 2, prepTime: 20 \},\
+  \{ id: 'biryani-2', name: 'Lamb Biryani', category: 'biryani', price: 15.95, description: 'Premium lamb cooked with saffron-infused basmati rice', isVegetarian: false, spiceLevel: 2, prepTime: 22 \},\
+  \{ id: 'biryani-3', name: 'Vegetable Biryani', category: 'biryani', price: 11.95, description: 'Mixed vegetables with fragrant saffron rice', isVegetarian: true, spiceLevel: 1, prepTime: 18 \},\
+  \{ id: 'biryani-4', name: 'Prawn Biryani', category: 'biryani', price: 16.95, description: 'Succulent prawns layered with fried onions and basmati rice', isVegetarian: false, spiceLevel: 2, prepTime: 20 \},\
+  \{ id: 'curry-1', name: 'Chicken Tikka Masala', category: 'curry', price: 13.95, description: 'Tender chicken in a creamy tomato and cream sauce', isVegetarian: false, spiceLevel: 2, prepTime: 18 \},\
+  \{ id: 'curry-2', name: 'Butter Chicken', category: 'curry', price: 13.95, description: 'Succulent chicken in a smooth butter and tomato gravy', isVegetarian: false, spiceLevel: 1, prepTime: 18 \},\
+  \{ id: 'curry-3', name: 'Lamb Bhuna', category: 'curry', price: 14.95, description: 'Lamb cooked with a thick, concentrated spice coating', isVegetarian: false, spiceLevel: 4, prepTime: 20 \},\
+  \{ id: 'curry-4', name: 'Palak Paneer', category: 'curry', price: 12.95, description: 'Cottage cheese in a creamy spinach curry with aromatic spices', isVegetarian: true, spiceLevel: 2, prepTime: 16 \},\
+  \{ id: 'curry-5', name: 'Chana Masala', category: 'curry', price: 11.95, description: 'Chickpeas cooked in a tangy tomato-based curry', isVegetarian: true, spiceLevel: 2, prepTime: 14 \},\
+  \{ id: 'curry-6', name: 'Lamb Korma', category: 'curry', price: 14.95, description: 'Tender lamb in a mild, creamy almond and yogurt sauce', isVegetarian: false, spiceLevel: 1, prepTime: 20 \},\
+  \{ id: 'naan-1', name: 'Plain Naan', category: 'naan', price: 2.95, description: 'Traditional Indian flatbread, soft and fluffy', isVegetarian: true, spiceLevel: 1, prepTime: 5 \},\
+  \{ id: 'naan-2', name: 'Garlic Naan', category: 'naan', price: 3.50, description: 'Naan brushed with garlic butter and fresh coriander', isVegetarian: true, spiceLevel: 1, prepTime: 5 \},\
+  \{ id: 'naan-3', name: 'Cheese Naan', category: 'naan', price: 4.00, description: 'Naan stuffed with melted mozzarella cheese', isVegetarian: true, spiceLevel: 1, prepTime: 6 \},\
+  \{ id: 'naan-4', name: 'Peshwari Naan', category: 'naan', price: 4.00, description: 'Naan filled with coconut and almond paste', isVegetarian: true, spiceLevel: 1, prepTime: 6 \},\
+  \{ id: 'veg-1', name: 'Paneer Makhani', category: 'vegetarian', price: 12.95, description: 'Creamy curry of cottage cheese with butter and tomatoes', isVegetarian: true, spiceLevel: 2, prepTime: 16 \},\
+  \{ id: 'veg-2', name: 'Aloo Matter', category: 'vegetarian', price: 11.95, description: 'Potatoes and peas in a mild spiced curry', isVegetarian: true, spiceLevel: 1, prepTime: 14 \},\
+];\
+\
+const CATEGORIES = [\
+  \{ id: 'starter', label: 'Starters', icon: null \},\
+  \{ id: 'tandoori', label: 'Tandoori', icon: Flame \},\
+  \{ id: 'biryani', label: 'Biryani', icon: null \},\
+  \{ id: 'curry', label: 'Curries', icon: null \},\
+  \{ id: 'vegetarian', label: 'Vegetarian', icon: Leaf \},\
+  \{ id: 'naan', label: 'Breads', icon: null \},\
+];\
+\
+export default function IntegratedMenu() \{\
+  const [selectedCategory, setSelectedCategory] = useState<string>('curry');\
+  const [searchQuery, setSearchQuery] = useState('');\
+  const [minSpiceLevel, setMinSpiceLevel] = useState(0);\
+\
+  const filteredItems = useMemo(() => \{\
+    return MENU_DATA.filter((item) => \{\
+      const matchesCategory = item.category === selectedCategory;\
+      const matchesSearch =\
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||\
+        item.description.toLowerCase().includes(searchQuery.toLowerCase());\
+      const matchesSpice = item.spiceLevel >= minSpiceLevel;\
+\
+      return matchesCategory && matchesSearch && matchesSpice;\
+    \});\
+  \}, [selectedCategory, searchQuery, minSpiceLevel]);\
+\
+  const containerVariants = \{\
+    hidden: \{ opacity: 0 \},\
+    visible: \{\
+      opacity: 1,\
+      transition: \{\
+        staggerChildren: 0.1,\
+        delayChildren: 0.2,\
+      \},\
+    \},\
+  \};\
+\
+  const itemVariants = \{\
+    hidden: \{ opacity: 0, y: 20 \},\
+    visible: \{\
+      opacity: 1,\
+      y: 0,\
+      transition: \{ duration: 0.6 \},\
+    \},\
+  \};\
+\
+  return (\
+    <section id="menu" className="relative w-full py-20 bg-[#1a1a1a]">\
+      <div\
+        className="absolute inset-0 opacity-3 pointer-events-none"\
+        style=\{\{\
+          backgroundImage: `\
+            repeating-linear-gradient(45deg, transparent, transparent 35px, #cc5500 35px, #cc5500 70px),\
+            repeating-linear-gradient(-45deg, transparent, transparent 35px, #cc5500 35px, #cc5500 70px)\
+          `,\
+        \}\}\
+      />\
+\
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">\
+        <motion.div\
+          initial=\{\{ opacity: 0, y: -20 \}\}\
+          whileInView=\{\{ opacity: 1, y: 0 \}\}\
+          viewport=\{\{ once: true \}\}\
+          className="text-center mb-16"\
+        >\
+          <h2 className="text-5xl md:text-6xl font-bold font-serif text-[#f2f2f2] mb-4">\
+            Our Menu\
+          </h2>\
+          <p className="text-[#f2f2f2]/70 text-lg md:text-xl max-w-2xl mx-auto">\
+            Explore our curated selection of authentic Indian dishes, all prepared fresh to order\
+          </p>\
+        </motion.div>\
+\
+        <motion.div\
+          initial=\{\{ opacity: 0, y: 20 \}\}\
+          whileInView=\{\{ opacity: 1, y: 0 \}\}\
+          viewport=\{\{ once: true \}\}\
+          className="mb-8 flex items-center gap-3 px-5 py-3 rounded-xl bg-[#2d2d2d] border border-[#cc5500]/20 focus-within:border-[#cc5500]/50 transition-colors"\
+        >\
+          <Search size=\{20\} className="text-[#cc5500]" />\
+          <input\
+            type="text"\
+            placeholder="Search dishes by name or ingredients..."\
+            value=\{searchQuery\}\
+            onChange=\{(e) => setSearchQuery(e.target.value)\}\
+            className="flex-1 bg-transparent text-[#f2f2f2] placeholder-[#f2f2f2]/50 outline-none"\
+          />\
+        </motion.div>\
+\
+        <motion.div\
+          initial=\{\{ opacity: 0, y: 20 \}\}\
+          whileInView=\{\{ opacity: 1, y: 0 \}\}\
+          viewport=\{\{ once: true \}\}\
+          className="mb-8 flex flex-wrap gap-3 justify-center"\
+        >\
+          \{CATEGORIES.map((cat) => \{\
+            const Icon = cat.icon;\
+            return (\
+              <motion.button\
+                key=\{cat.id\}\
+                onClick=\{() => setSelectedCategory(cat.id)\}\
+                whileHover=\{\{ scale: 1.05 \}\}\
+                whileTap=\{\{ scale: 0.95 \}\}\
+                className=\{`px-5 py-2 rounded-lg font-medium flex items-center gap-2 transition-all $\{\
+                  selectedCategory === cat.id\
+                    ? 'bg-gradient-to-r from-[#cc5500] to-[#ff8c42] text-white shadow-lg'\
+                    : 'bg-[#2d2d2d] text-[#f2f2f2] hover:border-[#cc5500]/50 border border-transparent'\
+                \}`\}\
+              >\
+                \{Icon && <Icon size=\{18\} />\}\
+                \{cat.label\}\
+              </motion.button>\
+            );\
+          \})\}\
+        </motion.div>\
+\
+        <motion.div\
+          initial=\{\{ opacity: 0, y: 20 \}\}\
+          whileInView=\{\{ opacity: 1, y: 0 \}\}\
+          viewport=\{\{ once: true \}\}\
+          className="mb-12 flex items-center justify-center gap-4 flex-wrap"\
+        >\
+          <span className="text-[#f2f2f2]/70 font-medium">Spice Level:</span>\
+          <div className="flex gap-2">\
+            \{[0, 1, 2, 3, 4, 5].map((level) => (\
+              <motion.button\
+                key=\{level\}\
+                onClick=\{() => setMinSpiceLevel(level)\}\
+                whileHover=\{\{ scale: 1.1 \}\}\
+                className=\{`w-10 h-10 rounded-lg font-semibold transition-all $\{\
+                  minSpiceLevel === level\
+                    ? 'bg-[#cc5500] text-white shadow-lg'\
+                    : 'bg-[#2d2d2d] text-[#f2f2f2] hover:bg-[#3d3d3d]'\
+                \}`\}\
+              >\
+                \{level\}\
+              </motion.button>\
+            ))\}\
+          </div>\
+        </motion.div>\
+\
+        <AnimatePresence mode="wait">\
+          \{filteredItems.length > 0 ? (\
+            <motion.div\
+              key=\{selectedCategory\}\
+              variants=\{containerVariants\}\
+              initial="hidden"\
+              animate="visible"\
+              exit=\{\{ opacity: 0 \}\}\
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"\
+            >\
+              \{filteredItems.map((item) => (\
+                <motion.div key=\{item.id\} variants=\{itemVariants\}>\
+                  <MenuItemCard item=\{item\} />\
+                </motion.div>\
+              ))\}\
+            </motion.div>\
+          ) : (\
+            <motion.div\
+              initial=\{\{ opacity: 0 \}\}\
+              animate=\{\{ opacity: 1 \}\}\
+              className="text-center py-12"\
+            >\
+              <p className="text-[#f2f2f2]/70 text-lg">\
+                No dishes found matching your criteria. Try adjusting your filters.\
+              </p>\
+            </motion.div>\
+          )\}\
+        </AnimatePresence>\
+      </div>\
+    </section>\
+  );\
+\}\
+ENDFILE\
+\
+# Create components/MenuItemCard.tsx\
+cat > components/MenuItemCard.tsx << 'ENDFILE'\
+'use client';\
+\
+import \{ useState \} from 'react';\
+import \{ motion \} from 'framer-motion';\
+import \{ ShoppingCart, Leaf, Clock, Flame \} from 'lucide-react';\
+\
+interface MenuItemCardProps \{\
+  item: \{\
+    id: string;\
+    name: string;\
+    price: number;\
+    description: string;\
+    isVegetarian: boolean;\
+    spiceLevel: number;\
+    prepTime: number;\
+  \};\
+\}\
+\
+export default function MenuItemCard(\{ item \}: MenuItemCardProps) \{\
+  const [isAdded, setIsAdded] = useState(false);\
+\
+  const handleAddToCart = () => \{\
+    setIsAdded(true);\
+    setTimeout(() => setIsAdded(false), 2000);\
+  \};\
+\
+  const spiceIndicators = Array.from(\{ length: 5 \}, (_, i) => (\
+    <Flame\
+      key=\{i\}\
+      size=\{14\}\
+      className=\{i < item.spiceLevel ? 'fill-[#ff8c42] text-[#ff8c42]' : 'text-[#f2f2f2]/30'\}\
+    />\
+  ));\
+\
+  return (\
+    <motion.div\
+      whileHover=\{\{ y: -8, boxShadow: '0 20px 40px #cc5500/20' \}\}\
+      className="group h-full rounded-xl bg-gradient-to-br from-[#2d2d2d] to-[#1a1a1a] border border-[#cc5500]/20 hover:border-[#cc5500]/50 p-6 transition-all"\
+    >\
+      <div className="flex items-start justify-between mb-3">\
+        <div className="flex-1">\
+          <h3 className="text-lg font-bold font-serif text-[#f2f2f2] group-hover:text-[#cc5500] transition-colors">\
+            \{item.name\}\
+          </h3>\
+          <div className="flex gap-2 mt-2 flex-wrap">\
+            \{item.isVegetarian && (\
+              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#4a7c4a]/30 border border-[#4a7c4a] text-[#a0d68f] text-xs font-medium">\
+                <Leaf size=\{12\} />\
+                Vegetarian\
+              </span>\
+            )\}\
+          </div>\
+        </div>\
+        <span className="text-xl font-bold text-[#cc5500] whitespace-nowrap ml-2">\
+          \'80\{item.price.toFixed(2)\}\
+        </span>\
+      </div>\
+\
+      <p className="text-[#f2f2f2]/70 text-sm mb-4 leading-relaxed">\
+        \{item.description\}\
+      </p>\
+\
+      <div className="space-y-2 mb-6 pb-6 border-b border-[#cc5500]/10">\
+        <div className="flex items-center gap-2">\
+          <span className="text-[#f2f2f2]/60 text-xs font-medium min-w-fit">Spice:</span>\
+          <div className="flex gap-1">\{spiceIndicators\}</div>\
+        </div>\
+\
+        <div className="flex items-center gap-2">\
+          <Clock size=\{14\} className="text-[#cc5500]" />\
+          <span className="text-[#f2f2f2]/60 text-xs">\{item.prepTime\} min</span>\
+        </div>\
+      </div>\
+\
+      <motion.button\
+        onClick=\{handleAddToCart\}\
+        whileHover=\{\{ scale: 1.02 \}\}\
+        whileTap=\{\{ scale: 0.98 \}\}\
+        className=\{`w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all $\{\
+          isAdded\
+            ? 'bg-[#4a7c4a] text-white'\
+            : 'bg-gradient-to-r from-[#cc5500] to-[#ff8c42] text-white hover:shadow-lg'\
+        \}`\}\
+      >\
+        <ShoppingCart size=\{18\} />\
+        \{isAdded ? 'Added to Cart' : 'Add to Order'\}\
+      </motion.button>\
+    </motion.div>\
+  );\
+\}\
+ENDFILE\
+\
+# Create tailwind.config.ts\
+cat > tailwind.config.ts << 'ENDFILE'\
+import type \{ Config \} from 'tailwindcss';\
+\
+const config: Config = \{\
+  content: [\
+    './app/**/*.\{js,ts,jsx,tsx,mdx\}',\
+    './components/**/*.\{js,ts,jsx,tsx,mdx\}',\
+  ],\
+  theme: \{\
+    extend: \{\
+      fontFamily: \{\
+        serif: ['var(--font-baskerville)', 'serif'],\
+        sans: ['var(--font-montserrat)', 'sans-serif'],\
+      \},\
+    \},\
+  \},\
+  plugins: [],\
+\};\
+\
+export default config;\
+ENDFILE\
+\
+# Create tsconfig.json\
+cat > tsconfig.json << 'ENDFILE'\
+\{\
+  "compilerOptions": \{\
+    "target": "ES2020",\
+    "useDefineForClassFields": true,\
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],\
+    "module": "ESNext",\
+    "skipLibCheck": true,\
+    "esModuleInterop": true,\
+    "allowSyntheticDefaultImports": true,\
+    "strict": true,\
+    "noImplicitAny": true,\
+    "strictNullChecks": true,\
+    "strictFunctionTypes": true,\
+    "noUnusedLocals": true,\
+    "noUnusedParameters": true,\
+    "noImplicitReturns": true,\
+    "forceConsistentCasingInFileNames": true,\
+    "resolveJsonModule": true,\
+    "moduleResolution": "bundler",\
+    "allowImportingTsExtensions": true,\
+    "noEmit": true,\
+    "jsx": "react-jsx",\
+    "baseUrl": ".",\
+    "paths": \{\
+      "@/*": ["./*"]\
+    \}\
+  \},\
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],\
+  "exclude": ["node_modules"]\
+\}\
+ENDFILE\
+\
+# Create next.config.ts\
+cat > next.config.ts << 'ENDFILE'\
+import type \{ NextConfig \} from 'next';\
+\
+const nextConfig: NextConfig = \{\
+  reactStrictMode: true,\
+\};\
+\
+export default nextConfig;\
+ENDFILE\
+\
+# Create .gitignore\
+cat > .gitignore << 'ENDFILE'\
+node_modules/\
+.next/\
+dist/\
+build/\
+*.local\
+.env.local\
+.DS_Store\
+.vercel\
+npm-debug.log*\
+yarn-debug.log*\
+yarn-error.log*\
+ENDFILE\
+\
+# Create README.md\
+cat > README.md << 'ENDFILE'\
+# Shah Jahan 2.0 - Premium Indian Restaurant Website\
+\
+A complete, production-ready restaurant website built with Next.js 15, Tailwind CSS, and Framer Motion.\
+\
+## \uc0\u55357 \u56960  Quick Start\
+\
+```bash\
+npm install\
+npm run dev}
